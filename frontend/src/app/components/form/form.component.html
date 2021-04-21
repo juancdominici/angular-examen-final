@@ -1,0 +1,75 @@
+<!--    Mozo
+        Mesa
+        Listado de comidas y bebidas con importe
+        Campo de cantidad
+        Boton de submit -->
+
+<div class="container-fluid w-75">
+  <br />
+  <h2 class="display-4">Modulo de Mozo</h2>
+  <p class="lead">Ingrese el nuevo pedido.</p>
+  <hr class="my-4" />
+
+  <div class="row">
+    <div class="col-6">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="mozo">Mozo</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          id="mozo"
+          aria-describedby="mozo"
+        />
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="mesa">Mesa</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          id="mesa"
+          aria-describedby="mesa"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelect01"
+        >Añadir alimentos y bebidas</label
+      >
+    </div>
+    <select class="custom-select" id="inputGroupSelect01">
+      <option selected>Elegir...</option>
+      <!-- Mapeo de alimentos, etc -->
+      <option value="1">Plato</option>
+      <option value="2">Plato</option>
+      <option value="3">Plato</option>
+    </select>
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Notas</span>
+    </div>
+    <textarea class="form-control" aria-label="notas"></textarea>
+  </div>
+
+  <div class="input-group mb-3 d-flex justify-content-around">
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      <div class="col">
+        <button type="reset" class="btn btn-danger">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
