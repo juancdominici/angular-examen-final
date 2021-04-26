@@ -1,0 +1,40 @@
+<div class="container-fluid w-75">
+  <br />
+  <h2 class="display-4">Modulo de Cocina</h2>
+  <p class="lead">Administracion de pedidos.</p>
+  <hr class="my-4" />
+  <div class="container-fluid d-flex flex-wrap justify-content-around">
+    <div *ngFor="let pedido of pedidos; let i = index">
+      <div class="card mb-4" style="width: 18rem">
+        <div class="card-body">
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-light btn-sm"
+              (click)="removePedido(i)"
+            >
+              <span class="badge"
+                ><i class="bi bi-x" style="font-size: 1.2rem"></i
+              ></span>
+            </button>
+          </div>
+          <h5 class="card-title display-5">Mesa {{ pedido.mesa }}</h5>
+          <h5 class="card-title display-5">Mozo: {{ pedido.mozo }}</h5>
+          <p class="card-text lead">{{ pedido.estado }}</p>
+          <p class="card-text lead">Notas: {{ pedido.nota }}</p>
+        </div>
+        <ul
+          class="list-group list-group-flush"
+          *ngFor="let item of pedido.productos"
+        >
+          <li class="list-group-item list-group-item-action">
+            {{ item.producto }}, {{ item.cantidad }}u
+          </li>
+        </ul>
+        <div class="card-body">
+          <h5 class="display-8">Total: ${{ pedido.total }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
