@@ -5,18 +5,23 @@
   <hr class="my-4" />
   <div class="container-fluid d-flex flex-wrap justify-content-around">
     <div *ngFor="let pedido of pedidos; let i = index">
-      <div class="card mb-4" style="width: 18rem">
+      <div
+        class="card mb-4 text-white"
+        style="width: 18rem"
+        [ngClass]="{
+          'bg-danger': pedido.estado === 'preparación',
+          'bg-success': pedido.estado === 'retirar',
+          'bg-primary': pedido.estado === 'entregado'
+        }"
+        (click)="handlePedido(i)"
+      >
         <div class="card-body">
           <div class="d-flex justify-content-end">
-            <button
+            <!-- <button
               type="button"
               class="btn btn-light btn-sm"
               (click)="removePedido(i)"
-            >
-              <span class="badge"
-                ><i class="bi bi-x" style="font-size: 1.2rem"></i
-              ></span>
-            </button>
+            ></button> -->
           </div>
           <h5 class="card-title display-5">Mesa {{ pedido.mesa }}</h5>
           <h5 class="card-title display-5">Mozo: {{ pedido.mozo }}</h5>
@@ -27,7 +32,14 @@
           class="list-group list-group-flush"
           *ngFor="let item of pedido.productos"
         >
-          <li class="list-group-item list-group-item-action">
+          <li
+            class="list-group-item list-group-item-action"
+            [ngClass]="{
+              'list-group-item-danger': pedido.estado === 'preparación',
+              'list-group-item-success': pedido.estado === 'retirar',
+              'list-group-item-primary': pedido.estado === 'entregado'
+            }"
+          >
             {{ item.producto }}, {{ item.cantidad }}u
           </li>
         </ul>

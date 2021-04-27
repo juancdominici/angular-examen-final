@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {} from 'bootstrap';
 import { empty } from 'rxjs';
+
+interface KeyValuePair {
+  name: string;
+  precio: number;
+}
+
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css'],
 })
 export class MainPageComponent implements OnInit {
-  tab = '';
+  tab = 'inicio';
   tabactive = true;
   isLoaded = true;
 
@@ -15,11 +21,12 @@ export class MainPageComponent implements OnInit {
   mozo: string;
   mesa: string;
   nota: string;
+  precioTotal: number;
 
   /* Listado de productos */
-  products: any[] = [
-    { name: 'Hamburguesa', price: 200 },
-    { name: 'Pancho con papas', price: 150 },
+  products: KeyValuePair[] = [
+    { name: 'Hamburguesa', precio: 200 },
+    { name: 'Pancho con papas', precio: 150 },
   ];
 
   /* Listado de cantidades del pedido */
@@ -35,6 +42,7 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoaded = true;
+    this.precioTotal = 0;
   }
 
   changeTab(a): void {
@@ -49,13 +57,18 @@ export class MainPageComponent implements OnInit {
   addItem(index): void {
     this.values.length = this.products.length;
     this.newItem.length = this.products.length;
-    this.values[index] = this.newItem[index];
-    console.log('Valor agregado', this.values[index], this.values);
-    console.log('New item', this.newItem[index]);
+    this.values[index] = parseInt(this.newItem[index], 10);
+    const cantidad = parseInt(this.newItem[index], 10);
+    this.precioTotal =
+      this.precioTotal + cantidad * this.products[index].precio;
+
     this.newItem[index] = '';
   }
 
   deleteItem(index): void {
+    this.precioTotal =
+      this.precioTotal -
+      parseInt(this.values[index], 10) * this.products[index].precio;
     this.values[index] = undefined;
   }
 
@@ -65,6 +78,7 @@ export class MainPageComponent implements OnInit {
     this.values = [];
     this.newItem = [];
     this.nota = '';
+    this.precioTotal = 0;
   }
 
   makePedido(): void {
@@ -75,16 +89,32 @@ export class MainPageComponent implements OnInit {
       mozo: this.mozo,
       mesa: this.mesa,
       nota: this.nota,
+      total: this.precioTotal,
       productos: [],
     };
 
-    pedido.productos = a.map((elem, i) => ({ producto: elem, cantidad: b[i] }));
-    console.log('Nueva forma', pedido);
+    /* Filter products */
+    pedido.productos = a.map((elem, i) => {
+      if (b[i] !== undefined) {
+        return { producto: elem, cantidad: b[i] };
+      }
+    });
+    pedido.productos = pedido.productos.filter((el, i) => {
+      return el;
+    });
+    /**
+     * !API CALL: ESTO SE VA CUANDO EL PEDIDO SE MANDA AL BACK
+     */
+    this.pedidos.push(pedido);
   }
 
   handleSubmit(): void {
     this.makePedido();
     this.reset();
+    /**
+     * !API CALL: ENVIANDO PEDIDO A LISTA DE PEDIDOS
+     */
+
     alert('El envio fue enviado con éxito');
   }
 }
