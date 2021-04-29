@@ -17,15 +17,19 @@
       >
         <div class="card-body">
           <div class="d-flex justify-content-end">
-            <!-- <button
-              type="button"
-              class="btn btn-light btn-sm"
-              (click)="removePedido(i)"
-            ></button> -->
+            <ng-container *ngIf="pedido.estado === 'entregado'">
+              <button
+                type="button"
+                class="btn btn-light btn-sm"
+                (click)="removePedido(i)"
+              >
+                <i class="bi bi-x" style="font-size: 1.1rem"></i>
+              </button>
+            </ng-container>
           </div>
           <h5 class="card-title display-5">Mesa {{ pedido.mesa }}</h5>
           <h5 class="card-title display-5">Mozo: {{ pedido.mozo }}</h5>
-          <p class="card-text lead">{{ pedido.estado }}</p>
+          <p class="card-text lead">Estado: {{ pedido.estado | titlecase }}</p>
           <p class="card-text lead">Notas: {{ pedido.nota }}</p>
         </div>
         <ul

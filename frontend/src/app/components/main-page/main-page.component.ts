@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {} from 'bootstrap';
-import { empty } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
-interface KeyValuePair {
-  name: string;
-  precio: number;
+export class Product {
+  constructor(public id: number, public name: string, public precio: number) {}
 }
 
 @Component({
@@ -24,10 +23,7 @@ export class MainPageComponent implements OnInit {
   precioTotal: number;
 
   /* Listado de productos */
-  products: KeyValuePair[] = [
-    { name: 'Hamburguesa', precio: 200 },
-    { name: 'Pancho con papas', precio: 150 },
-  ];
+  products: Product[];
 
   /* Listado de cantidades del pedido */
   values: any[] = [];
@@ -38,11 +34,23 @@ export class MainPageComponent implements OnInit {
   /* Pedidos */
   pedidos: any[] = [];
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {
     this.isLoaded = true;
     this.precioTotal = 0;
+    this.getProducts();
+  }
+
+  getProducts(): void {
+    this.httpClient.get<any>('http://localhost:3000/api/products/').subscribe({
+      next: (response) => {
+        this.products = response;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   changeTab(a): void {
@@ -89,6 +97,7 @@ export class MainPageComponent implements OnInit {
       mozo: this.mozo,
       mesa: this.mesa,
       nota: this.nota,
+      estado: 'preparación',
       total: this.precioTotal,
       productos: [],
     };
@@ -102,10 +111,27 @@ export class MainPageComponent implements OnInit {
     pedido.productos = pedido.productos.filter((el, i) => {
       return el;
     });
+
     /**
      * !API CALL: ESTO SE VA CUANDO EL PEDIDO SE MANDA AL BACK
      */
-    this.pedidos.push(pedido);
+
+    this.httpClient
+      .post<any>('http://localhost:3000/api/pedidos/', pedido, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .subscribe(
+        (val) => {
+          console.log('POST call successful value returned in body', val);
+        },
+        (response) => {
+          console.log('POST call in error', response);
+        },
+        () => {
+          alert('El envio fue enviado con éxito');
+        }
+      );
+    /* this.pedidos.push(pedido); */
   }
 
   handleSubmit(): void {
@@ -114,7 +140,5 @@ export class MainPageComponent implements OnInit {
     /**
      * !API CALL: ENVIANDO PEDIDO A LISTA DE PEDIDOS
      */
-
-    alert('El envio fue enviado con éxito');
   }
 }

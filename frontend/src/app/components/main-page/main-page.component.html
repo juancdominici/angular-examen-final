@@ -26,7 +26,7 @@
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <div></div>
         <li class="nav-item active">
-          <a class="nav-link" href="#" (click)="changeTab('inicio')">Inicio </a>
+          <a class="nav-link" href="#" (click)="changeTab('inicio')">Home </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#" (click)="changeTab('mozo')">Mozo</a>
@@ -39,25 +39,60 @@
   </nav>
 
   <div *ngSwitchCase="'inicio'">
-    <div class="jumbotron">
-      <h1 class="display-4">
-        ¡Bienvenido a mi proyecto final de la Diplomatura de Desarrollo Web de
-        la Universidad Tecnológica Nacional!
-      </h1>
-      <p class="lead">
-        Esto es una simple pagina de inicio para dar cohesión al proyecto.
-      </p>
-      <hr class="my-4" />
-      <p>
-        Tambien es posible revisar mi repositorio en GitHub para clonarlo o
-        hacer una branch del proyecto.
-      </p>
+    <div
+      id="carouselControls"
+      class="carousel carousel-dark slide"
+      data-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            class="w-75 rounded mx-auto d-block"
+            src="../../../assets/NGUL-BAR.png"
+            alt="First slide"
+          />
+        </div>
+        <div class="carousel-item">
+          <div class="jumbotron">
+            <h1 class="display-4">
+              ¡Bienvenido a mi proyecto final de la Diplomatura de Desarrollo
+              Web de la Universidad Tecnológica Nacional!
+            </h1>
+            <p class="lead">
+              Esto es una simple pagina de inicio para dar cohesión al proyecto.
+            </p>
+            <hr class="my-4" />
+            <p>
+              Tambien es posible revisar mi repositorio en GitHub para clonarlo
+              o hacer una branch del proyecto.
+            </p>
+            <a
+              class="btn btn-success btn-lg"
+              href="https://github.com/juancdominici/"
+              role="button"
+              >Ver más</a
+            >
+          </div>
+        </div>
+      </div>
       <a
-        class="btn btn-success btn-lg"
-        href="https://github.com/juancdominici/"
+        class="carousel-control-prev"
+        href="#carouselControls"
         role="button"
-        >Ver más</a
+        data-slide="prev"
       >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a
+        class="carousel-control-next"
+        href="#carouselControls"
+        role="button"
+        data-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
   </div>
   <div *ngSwitchCase="'mozo'">
@@ -83,7 +118,7 @@
       </div>
       <hr class="my-4" />
       <br />
-      <div class="">
+      <div class="needs-validation" novalidate>
         <div class="col">
           <div class="modal fade" role="dialog" id="modal">
             <div class="modal-dialog" role="document">
@@ -96,11 +131,22 @@
                 </div>
                 <div class="modal-body">
                   <ng-container *ngIf="precioTotal > 0">
+                    <div class="container">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                          <p class="lead">Mesa: {{ mesa }}</p>
+                        </li>
+                        <li class="list-group-item">
+                          <p class="lead">Mozo: {{ mozo }}</p>
+                        </li>
+                      </ul>
+                    </div>
+                    <br />
                     <table class="table table-hover">
                       <thead>
                         <tr>
                           <th scope="col">Cantidad</th>
-                          <th scope="col">Producto</th>
+                          <th scope="col">Consumibles</th>
                           <th scope="col">Precio unitario</th>
                         </tr>
                       </thead>
@@ -111,13 +157,13 @@
                           <tr *ngIf="values[i]" scope="row">
                             <td>{{ values[i] }}</td>
                             <td>{{ prod.name }}</td>
-                            <td>{{ prod.precio }}</td>
+                            <td>${{ prod.precio }}</td>
                           </tr>
                         </ng-container>
                         <tr>
                           <th>Total</th>
                           <td></td>
-                          <th>{{ precioTotal }}</th>
+                          <th>${{ precioTotal }}</th>
                         </tr>
                       </tbody>
                     </table>
@@ -139,11 +185,17 @@
               </div>
             </div>
           </div>
+
           <div class="row d-flex justify-content-center">
             <div class="col">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" id="mozo">Mozo</span>
+                  <label
+                    for="mozo"
+                    class="input-group-text form-label"
+                    id="mozo"
+                    >Mozo</label
+                  >
                 </div>
                 <input
                   type="text"
@@ -151,14 +203,21 @@
                   id="mozo"
                   aria-describedby="mozo"
                   [(ngModel)]="mozo"
+                  required
                 />
+                <div class="valid-feedback">Se ve bien!</div>
               </div>
             </div>
 
             <div class="col">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" id="mesa">Mesa</span>
+                  <label
+                    for="mesa"
+                    class="input-group-text form-label"
+                    id="mesa"
+                    >Mesa</label
+                  >
                 </div>
                 <input
                   type="text"
@@ -166,72 +225,82 @@
                   id="mesa"
                   aria-describedby="mesa"
                   [(ngModel)]="mesa"
+                  required
                 />
+                <div class="valid-feedback">Se ve bien!</div>
               </div>
             </div>
           </div>
         </div>
         <br />
-
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col" style="width: 100px">#</th>
-              <th scope="col"></th>
-              <th scope="col">Cantidad</th>
-              <th scope="col">Producto</th>
-              <th scope="col">Precio unitario</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let prod of products; let i = index">
-              <tr scope="row">
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="newItem[i]"
-                  />
-                </td>
-                <td>
-                  <div class="row">
-                    <button
-                      type="button"
-                      class="btn btn-danger mb-1 mr-1"
-                      (click)="deleteItem(i)"
-                      *ngIf="values[i]"
-                    >
-                      <span class="badge"
-                        ><i class="bi bi-x" style="font-size: 1.1rem"></i
-                      ></span>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-success mb-1"
-                      (click)="addItem(i)"
-                      [attr.disabled]="!newItem[i] ? 'true' : null"
-                    >
-                      <span class="badge"
-                        ><i
-                          class="bi bi-chevron-double-right"
-                          style="font-size: 1.1rem"
-                        ></i
-                      ></span>
-                    </button>
-                  </div>
-                </td>
-                <td>{{ values[i] }}</td>
-                <td>{{ prod.name }}</td>
-                <td>{{ prod.precio }}</td>
+        <div class="pre-scrollable">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 100px">#</th>
+                <th scope="col"></th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Consumibles</th>
+                <th scope="col">Precio unitario</th>
               </tr>
-            </ng-container>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let prod of products; let i = index">
+                <tr scope="row">
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="newItem[i]"
+                    />
+                  </td>
+                  <td>
+                    <div class="row">
+                      <button
+                        type="button"
+                        class="btn btn-danger mb-1 mr-1"
+                        (click)="deleteItem(i)"
+                        *ngIf="values[i]"
+                      >
+                        <span class="badge"
+                          ><i class="bi bi-x" style="font-size: 1.1rem"></i
+                        ></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-success mb-1"
+                        (click)="addItem(i)"
+                        [attr.disabled]="!newItem[i] ? 'true' : null"
+                      >
+                        <span class="badge"
+                          ><i
+                            class="bi bi-chevron-double-right"
+                            style="font-size: 1.1rem"
+                          ></i
+                        ></span>
+                      </button>
+                    </div>
+                  </td>
+                  <td>{{ values[i] }}</td>
+                  <td>{{ prod.name }}</td>
+                  <td>${{ prod.precio }}</td>
+                </tr>
+              </ng-container>
+              <ng-container *ngIf="precioTotal != 0">
+                <tr>
+                  <th>Total</th>
+                  <td></td>
+                  <th>${{ precioTotal }}</th>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
 
         <hr class="my-4" />
         <br />
         <div class="d-flex justify-content-center">
-          <div class="input-group col-6 mb-3">
+          <div class="input-group col mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">Notas</span>
             </div>

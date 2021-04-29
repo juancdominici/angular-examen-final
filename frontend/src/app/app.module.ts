@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { NgSwitchCase } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import { FormComponent } from './components/form/form.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
@@ -21,7 +22,13 @@ import { CocinaComponent } from './components/cocina/cocina.component';
     FooterComponent,
     CocinaComponent,
   ],
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule, FontAwesomeModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
