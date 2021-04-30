@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { NgSwitchCase } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { FormComponent } from './components/form/form.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { TitleComponent } from './components/title/title.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -16,7 +15,6 @@ import { CocinaComponent } from './components/cocina/cocina.component';
 @NgModule({
   declarations: [
     AppComponent,
-    FormComponent,
     MainPageComponent,
     TitleComponent,
     FooterComponent,

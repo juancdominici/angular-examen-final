@@ -61,14 +61,13 @@ export class CocinaComponent implements OnInit {
       )
       .subscribe(
         (data) => {
+          this.getPedidos();
           console.log(data);
         },
         (error) => {
           console.log(error);
         }
       );
-
-    this.getPedidos();
   }
   removePedido(i): void {
     const idPedido = this.pedidos[i]._id;
@@ -77,13 +76,12 @@ export class CocinaComponent implements OnInit {
       .delete<any>(`http://localhost:3000/api/pedidos/${idPedido}`, { headers })
       .subscribe(
         (data) => {
+          this.getPedidos();
           console.log(data);
         },
         (error) => {
           console.log(error);
         }
       );
-
-    this.getPedidos();
   }
 }
